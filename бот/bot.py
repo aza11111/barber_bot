@@ -12,9 +12,9 @@ API_TOKEN = os.getenv("BOT_TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", "0"))
 
 if not API_TOKEN:
-    raise RuntimeError("BOT_TOKEN is not set in .env")
+    raise RuntimeError("BOT_TOKEN is not set")
 if ADMIN_ID == 0:
-    raise RuntimeError("ADMIN_ID is not set in .env")
+    raise RuntimeError("ADMIN_ID is not set")
 
 logging.basicConfig(level=logging.INFO)
 
@@ -35,11 +35,11 @@ async def start(message: types.Message):
 
 @dp.message_handler(lambda m: m.text == "💈 Цены")
 async def prices(message: types.Message):
-    await message.answer("Стрижка — 100 000 сум\nБорода — 50 000 сум")
+    await message.answer("💈 Прайс:\nСтрижка — 100 000 сум\nБорода — 50 000 сум")
 
 @dp.message_handler(lambda m: m.text == "📍 Адрес")
 async def address(message: types.Message):
-    await message.answer("📍 г. Ташкент, ул. Пример 10")
+    await message.answer("📍 Адрес: г. Ташкент, ул. Пример 10")
 
 @dp.message_handler(lambda m: m.text == "📅 Записаться")
 async def booking(message: types.Message):
@@ -47,7 +47,6 @@ async def booking(message: types.Message):
 
 @dp.message_handler()
 async def save_booking(message: types.Message):
-    # Отправляем админу
     username = message.from_user.username
     who = f"@{username}" if username else f"id:{message.from_user.id}"
 
@@ -57,7 +56,6 @@ async def save_booking(message: types.Message):
         f"Данные: {message.text}\n"
         f"От: {who}"
     )
-
     await message.answer("✅ Спасибо! Запись принята. Мы свяжемся с вами.")
 
 if __name__ == "__main__":
